@@ -1,3 +1,3 @@
-var baseURL = 'http://oha.link/';
+var baseURL = 'oha.link/';
 
 module.exports = baseURL;

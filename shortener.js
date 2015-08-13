@@ -7,20 +7,22 @@ db.connect_to_database();
 // This generates a random number to be used as an index for the
 // possible symbols array. N queries to this array comprise the
 // shortened URL.
-var generateIndex = function() {
-    var index = Math.floor((Math.random() * 23) + 1);
+var generateRandomIndex = function() {
+    var index = Math.floor((Math.random() * 61) + 1);
 
     return index;
 };
 
 // This generates the shortened URL using the pseudorandom number from
 // the previous function to serve as an index.
-var generateShortURL = function(length) {
-    var options = 'abcdefgABCDEFG1234567890';
+var generateRandomString = function(length) {
+    var options =
+    'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+    var o = "123";
     var string = '';
 
     for(var i = 0; i < length; i++ ) {
-        string += options[generateIndex()];
+        string += options[generateRandomIndex()];
     };
 
     return string;
@@ -28,16 +30,35 @@ var generateShortURL = function(length) {
 
 // Do a lookup in the link database to check if the generated short URL
 // is a duplicate.
-var isDuplicate = function(url) {
+var isDuplicate = function(url, callback) {
+  console.log('isDuplicate() called');
 
+  db.search('SURL', url, function(err, result) {
+    if(!err && result !== null) {
+      console.log('Found ' + result[0]['SURL']);
+
+      shortLink = base_url + generateRandomString(4);
+
+      isDuplicate(shortLink, function(err, string) {
+        //callback(err, null);
+      });
+    }
+    else if(!err && result === null) {
+      console.log(url + " is not a duplicate.");
+      callback(null, url);
+    }
+    else {
+      return err;
+    }
+  });
 };
 
 // Do a lookup in the link database to check if the given URL
 // has already been shortened.
 var isAlreadyShortened = function(url, callback) {
-  db.search(url, function(err, result) {
+  db.search('URL', url, function(err, result) {
     if(!err && result !== null) {
-      callback(null, result);
+      callback(err, result);
     }
     else {
       callback(err, null);
@@ -46,17 +67,25 @@ var isAlreadyShortened = function(url, callback) {
 };
 
 // Main method
-var shortenLink = function(url) {
+var shorten = function(url) {
   var shortURL;
 
   isAlreadyShortened(url, function(err, result) {
     if(!err && result !== null) {
       console.log("URL has already been shortened.");
+      console.log(result[0]['SURL']);
     }
     else if(!err && result === null) {
-      shortURL = base_url + generateShortURL(4);
-      console.log('URL has not already been shortened.');
-      console.log(shortURL);
+      console.log('URL has not been shortened.');
+      shortURL = base_url + generateRandomString(4);
+
+      isDuplicate(shortURL, function(err, result) {
+        if(!err) {
+          shortURL = result;
+          console.log(shortURL);
+        }
+      })
+
     }
     else {
       return err;
@@ -64,10 +93,10 @@ var shortenLink = function(url) {
   });
 };
 
-//db.connect_to_database();
-
-//console.log(shortenLink('http://google.com'));
-//console.log(Math.floor((Math.random() * 24) + 1));
+/*
+shortenLink('bin.com', function(err, result) {
+  console.log(result);
+})*/
 setTimeout(function() {
-  shortenLink('hn.premii.com');
+  shorten('gogle.com');
 }, 500);

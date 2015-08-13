@@ -34,10 +34,22 @@ DataBase.prototype.write = function(url, short_url, callback) {
 };
 
 // Search the DB for matching URLs.
-DataBase.prototype.search = function(url, callback) {
+DataBase.prototype.search = function(key, value, callback) {
   var collection = this._db.collection('shortened');
 
-  var cursor = collection.find({'URL': url});
+  // Dynamic values have to be assigned to an object before passing
+  // them to find(), because node takes the literal names of the variables
+  var queryObject = {};
+  queryObject[key] = value;
+
+  var cursor = collection.find(queryObject, function(err, result) {
+    if(!err) {
+      return result;
+    }
+    else {
+      return error;
+    }
+  });
 
   cursor.toArray(function(err, result) {
     if(result.length) {
@@ -59,8 +71,8 @@ var db = new DataBase();
 db.connect_to_database();
 
 setTimeout(function() {
-  db.search('bing.com', function(err, result) {
-    console.log(result);
+  db.search('URL', 'bing.com', function(err, result) {
+    console.log(err, result);
   })
 }, 500);
 
