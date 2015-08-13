@@ -1,9 +1,8 @@
 var DataBase = require('./database.js');
+var base_url = require('./base_url.js');
 
 var db = new DataBase();
 db.connect_to_database();
-
-var alreadyShortenedURL = '';
 
 // This generates a random number to be used as an index for the
 // possible symbols array. N queries to this array comprise the
@@ -16,7 +15,7 @@ var generateIndex = function() {
 
 // This generates the shortened URL using the pseudorandom number from
 // the previous function to serve as an index.
-var generateString = function(length) {
+var generateShortURL = function(length) {
     var options = 'abcdefgABCDEFG1234567890';
     var string = '';
 
@@ -27,36 +26,42 @@ var generateString = function(length) {
     return string;
 };
 
-var isAlreadyShortened = function(url) {
-  // Do a lookup in the link database
-  db.search(url, function(err, result) {
-    if(!err) {
-      console.log(result);
-    }
-  });
-};
-
+// Do a lookup in the link database to check if the generated short URL
+// is a duplicate.
 var isDuplicate = function(url) {
 
 };
 
+// Do a lookup in the link database to check if the given URL
+// has already been shortened.
+var isAlreadyShortened = function(url, callback) {
+  db.search(url, function(err, result) {
+    if(!err && result !== null) {
+      callback(null, result);
+    }
+    else {
+      callback(err, null);
+    }
+  });
+};
+
+// Main method
 var shortenLink = function(url) {
-  var baseURL = 'http://oha.link/';
+  var shortURL;
 
-  if(isAlreadyShortened(url)) {
-    console.log('yes');
-    console.log(alreadyShortenedURL);
-
-  }
-  else {
-    // shorten
-    console.log('no');
-    var shortURL = baseURL + generateString(4);
-    // check for duplicate
-
-    return shortURL;
-  }
-
+  isAlreadyShortened(url, function(err, result) {
+    if(!err && result !== null) {
+      console.log("URL has already been shortened.");
+    }
+    else if(!err && result === null) {
+      shortURL = base_url + generateShortURL(4);
+      console.log('URL has not already been shortened.');
+      console.log(shortURL);
+    }
+    else {
+      return err;
+    }
+  });
 };
 
 //db.connect_to_database();
@@ -64,5 +69,5 @@ var shortenLink = function(url) {
 //console.log(shortenLink('http://google.com'));
 //console.log(Math.floor((Math.random() * 24) + 1));
 setTimeout(function() {
-  isAlreadyShortened('google.com');
-}, 1000);
+  shortenLink('hn.premii.com');
+}, 500);

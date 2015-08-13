@@ -41,15 +41,15 @@ DataBase.prototype.search = function(url, callback) {
 
   cursor.toArray(function(err, result) {
     if(result.length) {
-      callback(null, result);
+      callback(err, result);
     }
     else {
-      callback(err);
+      callback(err, null);
     }
   });
 };
 
-DataBase.prototype.close_connection = function() {
+DataBase.prototype.closeConnection = function() {
   this._db.close();
 };
 
