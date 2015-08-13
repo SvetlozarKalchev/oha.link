@@ -67,13 +67,15 @@ var isAlreadyShortened = function(url, callback) {
 };
 
 // Main method
-var shorten = function(url) {
+var shorten = function(url, callback) {
   var shortURL;
 
   isAlreadyShortened(url, function(err, result) {
     if(!err && result !== null) {
       console.log("URL has already been shortened.");
       console.log(result[0]['SURL']);
+
+      callback(err, result[0]['SURL'])
     }
     else if(!err && result === null) {
       console.log('URL has not been shortened.');
@@ -83,12 +85,17 @@ var shorten = function(url) {
         if(!err) {
           shortURL = result;
           console.log(shortURL);
+
+          callback(err, shortURL);
+        }
+        else {
+          callback(err, null);
         }
       })
 
     }
     else {
-      return err;
+      callback(err, null);
     }
   });
 };
@@ -96,7 +103,10 @@ var shorten = function(url) {
 /*
 shortenLink('bin.com', function(err, result) {
   console.log(result);
-})*/
+})
 setTimeout(function() {
   shorten('gogle.com');
 }, 500);
+*/
+
+exports.shorten = shorten;
