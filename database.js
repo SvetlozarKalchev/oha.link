@@ -82,6 +82,4 @@ db.write('facebook.com', 'oha.link/xyz', function(err, result) {
 });
 */
 
-
-
 module.exports = DataBase;

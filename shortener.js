@@ -1,13 +1,15 @@
 var DataBase = require('./database.js');
 var base_url = require('./base_url.js');
 
-var db = new DataBase();
-db.connect_to_database();
+var Shortener = function() {
+}
+
+Shortener.prototype.db = new DataBase();
 
 // This generates a random number to be used as an index for the
 // possible symbols array. N queries to this array comprise the
 // shortened URL.
-var generateRandomIndex = function() {
+Shortener.prototype.generateRandomIndex = function() {
     var index = Math.floor((Math.random() * 61) + 1);
 
     return index;
@@ -15,32 +17,32 @@ var generateRandomIndex = function() {
 
 // This generates the shortened URL using the pseudorandom number from
 // the previous function to serve as an index.
-var generateRandomString = function(length) {
+Shortener.prototype.generateRandomString = function(length) {
     var options =
     'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-    var o = "123";
+
     var string = '';
 
     for(var i = 0; i < length; i++ ) {
-        string += options[generateRandomIndex()];
+        string += options[Shortener.prototype.generateRandomIndex()];
     };
 
     return string;
 };
 
 // Do a lookup in the link database to check if the generated short URL
-// is a duplicate.
-var isDuplicate = function(url, callback) {
+// is a duplicate. Generate a new SURL and repeat the check until the
+// generated SURL is unique.
+Shortener.prototype.isDuplicate = function(url, callback) {
   console.log('isDuplicate() called');
 
-  db.search('SURL', url, function(err, result) {
+  Shortener.prototype.db.search('SURL', url, function(err, result) {
     if(!err && result !== null) {
       console.log('Found ' + result[0]['SURL']);
 
-      shortLink = base_url + generateRandomString(4);
+      shortLink = base_url + Shortener.prototype.generateRandomString(4);
 
-      isDuplicate(shortLink, function(err, string) {
-        //callback(err, null);
+      Shortener.prototype.isDuplicate(shortLink, function(err, string) {
       });
     }
     else if(!err && result === null) {
@@ -48,17 +50,17 @@ var isDuplicate = function(url, callback) {
       callback(null, url);
     }
     else {
-      return err;
+      callback(err, null);
     }
   });
 };
 
 // Do a lookup in the link database to check if the given URL
 // has already been shortened.
-var isAlreadyShortened = function(url, callback) {
-  db.search('URL', url, function(err, result) {
+Shortener.prototype.isAlreadyShortened = function(url, callback) {
+  Shortener.prototype.db.search('URL', url, function(err, result) {
     if(!err && result !== null) {
-      callback(err, result);
+      callback(err, result[0]['SURL']);
     }
     else {
       callback(err, null);
@@ -66,27 +68,71 @@ var isAlreadyShortened = function(url, callback) {
   });
 };
 
+// Retrieves shortened link from the DB and returns it to the callback
+Shortener.prototype.getShortenedLink = function(url, callback) {
+  Shortener.prototype.db.search('SURL', url, function(err, result) {
+    if(!err && result != null) {
+      callback(err, result[0]['URL']);
+    }
+    else {
+      console.log('No such shortened link - error')
+      callback(1, null);
+    }
+  })
+}
+
+// Writes shortened link to DB
+Shortener.prototype.saveShortenedLink = function(url, shortURL, callback) {
+  Shortener.prototype.db.write(url, shortURL, function(err, result) {
+    if(!err) {
+      console.log('Successfully saved URL to DB! ' + result);
+      callback(null, result)
+    }
+    else {
+      callback(err, result)
+    }
+  })
+}
 // Main method
-var shorten = function(url, callback) {
+Shortener.prototype.shorten = function(url, callback) {
   var shortURL;
 
-  isAlreadyShortened(url, function(err, result) {
+  // 1. Check is URL has been shortened before.
+  Shortener.prototype.isAlreadyShortened(url, function(err, result) {
+    // 2. If yes, return the shortened URL, so the user can be
+    //    redirected to it.
     if(!err && result !== null) {
       console.log("URL has already been shortened.");
-      console.log(result[0]['SURL']);
+      console.log(result);
 
-      callback(err, result[0]['SURL'])
+      callback(err, result)
     }
+    // 3. If no, generate a unique short URL, write it to the DB,
+    //    and return it, so the user can be redirected to it.
     else if(!err && result === null) {
       console.log('URL has not been shortened.');
-      shortURL = base_url + generateRandomString(4);
+      shortURL = base_url + Shortener.prototype.generateRandomString(4);
 
-      isDuplicate(shortURL, function(err, result) {
+      console.log('Generated a new short URL.');
+
+      Shortener.prototype.isDuplicate(shortURL, function(err, result) {
         if(!err) {
           shortURL = result;
-          console.log(shortURL);
+          console.log('Final SURL is: ' + shortURL);
 
-          callback(err, shortURL);
+          Shortener.prototype.saveShortenedLink(url, shortURL,
+            function(err, result) {
+              if(!err) {
+                // Return an array, containing the URL and the SURL
+                var bothLinks = [];
+                bothLinks.push(url, shortURL);
+
+                callback(err, bothLinks);
+              }
+              else {
+                callback(err, null);
+              }
+            });
         }
         else {
           callback(err, null);
@@ -101,12 +147,14 @@ var shorten = function(url, callback) {
 };
 
 /*
-shortenLink('bin.com', function(err, result) {
-  console.log(result);
-})
+var s = new Shortener();
+s.db.connect_to_database();
+
 setTimeout(function() {
-  shorten('gogle.com');
+  s.shorten('cev.eu', function(err, result) {
+    console.log(result);
+  });
 }, 500);
 */
 
-exports.shorten = shorten;
+module.exports = Shortener;
