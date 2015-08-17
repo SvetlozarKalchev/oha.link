@@ -71,6 +71,7 @@ Shortener.prototype.isAlreadyShortened = function(url, callback) {
 // Retrieves shortened link from the DB and returns it to the callback
 Shortener.prototype.getShortenedLink = function(url, callback) {
   Shortener.prototype.db.search('SURL', url, function(err, result) {
+    console.log('db.search ->' + url);
     if(!err && result != null) {
       callback(err, result[0]['URL']);
     }

@@ -46,9 +46,17 @@ http.createServer(function(req, res) {
     Shortener.getShortenedLink(baseURL + parsedRequest.path
     , function (err, result) {
       if(!err) {
-        res.writeHead(302,
-           {'Location': result});
-        res.end()
+        // If there is no protocol, add it, else redirect won't work.
+        if(result.toLowerCase().indexOf('http') !== -1) {
+          res.writeHead(302,
+             {'Location': result});
+          res.end()
+        }
+        else {
+          res.writeHead(302,
+             {'Location': 'http://' + result});
+          res.end()
+        }
       }
       else {
         console.log(err);
