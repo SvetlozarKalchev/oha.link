@@ -47,7 +47,7 @@ http.createServer(function(req, res) {
     , function (err, result) {
       if(!err) {
         res.writeHead(302,
-           {'Location': 'http://' + result});
+           {'Location': result});
         res.end()
       }
       else {
