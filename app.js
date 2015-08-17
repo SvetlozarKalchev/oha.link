@@ -1,6 +1,7 @@
 var http = require('http');
 var url = require('url');
 var fs = require('fs');
+var baseURL = require('./base_url');
 
 var ShortenerObject = require('./shortener.js');
 
@@ -40,9 +41,9 @@ http.createServer(function(req, res) {
       }
     });
   }
-  else if(req.url != '/favicon.ico' && parsedRequest.path.length > 1
-   && !parsedRequest.query) {
-    Shortener.getShortenedLink('oha.link' + parsedRequest.path
+  else if(req.url != '/favicon.ico' && !parsedRequest.query) {
+     console.log('Searching for: ' + baseURL + parsedRequest.path);
+    Shortener.getShortenedLink(baseURL + parsedRequest.path
     , function (err, result) {
       if(!err) {
         res.writeHead(302,
@@ -58,11 +59,12 @@ http.createServer(function(req, res) {
   }
   else if(req.url != '/favicon.ico' && parsedRequest.pathname == '/shorten' && parsedRequest.query) {
     if(parsedRequest.query.length >= 4) {
+      console.log("PRQ: " + parsedRequest.query);
       Shortener.shorten(parsedRequest.query, function(err, result) {
         // If a new URL gets shortened, an array with the length of 2
         // gets returned
         if(!err && result.length == 2) {
-          console.log('Shortened ' + result[0] + 'to: ' + result[1]);
+          console.log('Shortened ' + result[0] + ' to: ' + result[1]);
           res.write(result[1]);
           res.end();
         }
@@ -85,7 +87,7 @@ http.createServer(function(req, res) {
   }
   else {
     console.log('No such URL path');
-    res.write('The requested URL ' + parsedRequest.path +' is invalid');
+    res.write('The requested URL ' + parsedRequest +' is invalid');
     res.end();
   }
 

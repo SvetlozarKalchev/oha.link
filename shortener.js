@@ -40,7 +40,7 @@ Shortener.prototype.isDuplicate = function(url, callback) {
     if(!err && result !== null) {
       console.log('Found ' + result[0]['SURL']);
 
-      shortLink = base_url + Shortener.prototype.generateRandomString(4);
+      shortLink = 'oha.link/' + Shortener.prototype.generateRandomString(4);
 
       Shortener.prototype.isDuplicate(shortLink, function(err, string) {
       });
@@ -111,7 +111,7 @@ Shortener.prototype.shorten = function(url, callback) {
     //    and return it, so the user can be redirected to it.
     else if(!err && result === null) {
       console.log('URL has not been shortened.');
-      shortURL = base_url + Shortener.prototype.generateRandomString(4);
+      shortURL = 'oha.link/' + Shortener.prototype.generateRandomString(4);
 
       console.log('Generated a new short URL.');
 
