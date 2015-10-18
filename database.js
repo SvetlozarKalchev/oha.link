@@ -1,7 +1,6 @@
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 
-// DataBase object. Encapsulates methods for working with the DB.
 var DataBase = function() {
   this.url = 'mongodb://localhost:27017/links';
 };
@@ -11,11 +10,10 @@ var DataBase = function() {
 // is a slow operation.
 DataBase.prototype.connect_to_database = function() {
   MongoClient.connect(this.url, function(err, db) {
-    if(!err) {
+    if (!err) {
       console.log("Connected OK!");
       DataBase.prototype._db = db;
-    }
-    else {
+    } else {
       console.log("ERROR: " + err);
     }
   });
@@ -25,8 +23,10 @@ DataBase.prototype.connect_to_database = function() {
 DataBase.prototype.write = function(url, short_url, callback) {
   var collection = this._db.collection('shortened');
 
-  var data = {"URL": url, "SURL": short_url};
-
+  var data = {
+    "URL": url,
+    "SURL": short_url
+  };
 
   collection.insert(data, function(err, result) {
     callback(err, result);
@@ -43,19 +43,17 @@ DataBase.prototype.search = function(key, value, callback) {
   queryObject[key] = value;
 
   var cursor = collection.find(queryObject, function(err, result) {
-    if(!err) {
+    if (!err) {
       return result;
-    }
-    else {
+    } else {
       return error;
     }
   });
 
   cursor.toArray(function(err, result) {
-    if(result.length) {
+    if (result.length) {
       callback(err, result);
-    }
-    else {
+    } else {
       callback(err, null);
     }
   });
@@ -64,22 +62,5 @@ DataBase.prototype.search = function(key, value, callback) {
 DataBase.prototype.closeConnection = function() {
   this._db.close();
 };
-
-/*
-var db = new DataBase();
-
-db.connect_to_database();
-
-setTimeout(function() {
-  db.search('URL', 'bing.com', function(err, result) {
-    console.log(err, result);
-  })
-}, 500);
-
-/*
-db.write('facebook.com', 'oha.link/xyz', function(err, result) {
-  console.log("written");
-});
-*/
 
 module.exports = DataBase;

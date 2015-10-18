@@ -38,4 +38,5 @@ Thumbs.db
 
 #DB dir
 data
+node_modules
 
