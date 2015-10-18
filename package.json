@@ -1,0 +1,27 @@
+{
+  "name": "oha.link",
+  "version": "0.2.0",
+  "description": "A simple link shortener based on the MEAN stack. ",
+  "main": "app.js",
+  "directories": {
+    "gen-test": ""
+  },
+  "scripts": {
+    "gen-test": "mocha ./tests/general-tests.js; exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SvetlozarKalchev/oha.link.git"
+  },
+  "keywords": [
+    "link",
+    "shortener",
+    "oha.link"
+  ],
+  "author": "Svetlozar Kalchev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SvetlozarKalchev/oha.link/issues"
+  },
+  "homepage": "https://github.com/SvetlozarKalchev/oha.link#readme"
+}

@@ -1,4 +1,11 @@
 #TODO:
+1. Create a Router class
+
+2. Add CONFIG file
+
+3. Rework DB class - fix DB object issues
+
+#TODO:
 
 1. Secure MongoDB port 28017 - it shouldn't be public!
 http://blog.mongodirector.com/10-tips-to-improve-your-mongodb-security/
