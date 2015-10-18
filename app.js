@@ -3,11 +3,11 @@ var url = require('url');
 var fs = require('fs');
 var baseURL = require('./CONFIG.js').BASE_URL;
 
-var ShortenerObject = require('./shortener.js');
+var DataBase = require('./lib/database.js');
+var Shortener = require('./lib/shortener.js');
 
 // Initiate DB connection
-var Shortener = new ShortenerObject();
-Shortener.db.connect_to_database();
+DataBase.connectToDataBase();
 
 http.createServer(function(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
