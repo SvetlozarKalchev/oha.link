@@ -24,17 +24,28 @@ appropriate functionality called.
 ....Router.js -> Lots of conditions have to be fulfilled to route requests, so logic for that goes here. Also has methods that call everything needed to serve the homepage and retrieve a shortened link from the DB.
 
 ....Shortener.js -> Contains logic for all things needed when generating a short URL - checking if the generated string is a duplicate, checking if a given URL is already shortened, saving a short URL to the DB, etc.
+.....StaticPageServer.js -> Contains logic to retrieve and serve the homepage static file.
+
 # Routes & Algorithms
 
-- / -> Serve homepage static file
+###/
 
-- /[shortURL] -> -Look in DB
-								 	--If FOUND, redirect to shortURL
-									--If NOT FOUND, return 404
+		Serve homepage
 
-- /shorten?[url] -> -Look in DB for URL
-											--If FOUND, return shortURL
-											--If NOT FOUND, generateRandomString() for short URL
-												---Look in DB if it isDuplicate()
-													----If FOUND, generateRandomString() again
-													----If NOT FOUND, save url+shortURL and return shortURL
+###/[4-character-string]
+		1. Look for the given short URL in the DB.
+			If FOUND, redirect to short URL.
+
+			If NOT FOUND, return 404.
+
+###/shorten?[url]
+		1. Look in DB for URL
+			If FOUND, return shortURL
+
+			If NOT FOUND, generate random string for a new short URL.
+				Look in DB if it is a duplicate of previously shortened link.
+					If a duplicate is FOUND, generate a random string again.
+					If a duplicate NOT FOUND, save the pair url:shortURL and return the short URL.
+
+#####every other case
+		Return 404.
