@@ -4,7 +4,7 @@ var url = require('url');
 var fs = require('fs');
 var baseURL = require('./CONFIG.js').BASE_URL;
 
-let RequestController = require('./lib/RequestController.js');
+let RequestController = require('./lib/controllers/RequestController.js');
 
 http.createServer(function(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
