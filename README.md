@@ -1,7 +1,7 @@
 # App description
 
-oha.link is a simple link shortener written in Node.js using some ES6
-functionality. It uses MongoDB too and the UI is also included.
+[oha.link](http://oha.link) is a simple link shortener written in Node.js using some ES6
+functionality. It uses MongoDB and has a minimalistic web UI.
 
 Dependencies: MongoDB, Mocha+Chai.
 
