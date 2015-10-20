@@ -23,7 +23,7 @@ http://blog.mongodirector.com/10-tips-to-improve-your-mongodb-security/
 - / -> Serve homepage static file
 
 - /[shortURL] -> -Look in DB
-								 	--If FOUND, return shortURL
+								 	--If FOUND, redirect to shortURL
 									--If NOT FOUND, return 404
 
 - /shorten?[url] -> -Look in DB for URL
