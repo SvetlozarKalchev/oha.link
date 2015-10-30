@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/SvetlozarKalchev/oha.link/issues"
   },
-  "homepage": "https://github.com/SvetlozarKalchev/oha.link#readme"
+  "homepage": "https://github.com/SvetlozarKalchev/oha.link#readme",
+  "dependencies": {
+    "scribo": "^1.0.6"
+  }
 }
