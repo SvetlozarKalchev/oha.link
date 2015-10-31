@@ -41,4 +41,5 @@ data
 
 node_modules
 TODO.md
-
+logs/req.log.txt
+logs/visits.txt
