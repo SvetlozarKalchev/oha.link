@@ -10,7 +10,7 @@ module.exports = (function() {
     ${reqIp}
     ${httpReq.headers['user-agent']} |
     ${httpReq.headers['referer']}
-    -------------------------------- '\n'`;
+    ----------------------------------------------------------- '\n'`;
 
     Scribo.logEvent('Request to /', logMessage, true);
   }

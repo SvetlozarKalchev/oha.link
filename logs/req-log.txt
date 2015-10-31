@@ -1,44 +1,12 @@
-Sat, 31 Oct 2015 18:45:30 GMT | Request to / :  from
-      undefined
-      Mozilla/5.0 (X11; Linux i686 (x86_64)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36 |
-      undefined
-Sat, 31 Oct 2015 18:45:30 GMT | Request to / :  from
-      undefined
-      Mozilla/5.0 (X11; Linux i686 (x86_64)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36 |
-      http://localhost:8000/
-Sat, 31 Oct 2015 18:45:47 GMT | Request to / :  from
-      undefined
-      Mozilla/5.0 (X11; Linux i686 (x86_64)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36 |
-      undefined
-Sat, 31 Oct 2015 18:45:47 GMT | Request to / :  from
-      undefined
-      Mozilla/5.0 (X11; Linux i686 (x86_64)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36 |
-      http://localhost:8000/
-Sat, 31 Oct 2015 18:46:12 GMT | Request to / :  from
-      ::ffff:127.0.0.1
-      Mozilla/5.0 (X11; Linux i686 (x86_64)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36 |
-      undefined
-Sat, 31 Oct 2015 18:46:13 GMT | Request to / :  from
-      ::ffff:127.0.0.1
-      Mozilla/5.0 (X11; Linux i686 (x86_64)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36 |
-      http://localhost:8000/
-Sat, 31 Oct 2015 18:46:22 GMT | Request to / :  from
-      ::ffff:127.0.0.1
-      Mozilla/5.0 (X11; Linux i686 (x86_64)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36 |
-      undefined
-Sat, 31 Oct 2015 18:46:22 GMT | Request to / :  from
-      ::ffff:127.0.0.1
-      Mozilla/5.0 (X11; Linux i686 (x86_64)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36 |
-      http://localhost:8000/
-Sat, 31 Oct 2015 18:52:44 GMT | Request to / :  from
+Sat, 31 Oct 2015 18:59:20 GMT | Request to / :  from
     ::ffff:127.0.0.1
     Mozilla/5.0 (X11; Linux i686 (x86_64)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36 |
     undefined
-    -------------------------------- '
+    ----------------------------------------------------------- '
 '
-Sat, 31 Oct 2015 18:52:45 GMT | Request to / :  from
+Sat, 31 Oct 2015 18:59:21 GMT | Request to / :  from
     ::ffff:127.0.0.1
     Mozilla/5.0 (X11; Linux i686 (x86_64)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.152 Safari/537.36 |
     http://localhost:8000/
-    -------------------------------- '
+    ----------------------------------------------------------- '
 '
