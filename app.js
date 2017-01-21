@@ -5,7 +5,7 @@ var fs = require('fs');
 
 var baseURL = require('./CONFIG.js').BASE_URL;
 
-let RequestControllerConstructor = require('./lib/controllers/RequestController.js');
+let RequestControllerConstructor = require('./server/src/controllers/RequestController.js');
 let RequestController = new RequestControllerConstructor();
 
 http.createServer(function(req, res) {

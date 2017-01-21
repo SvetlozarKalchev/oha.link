@@ -3,7 +3,7 @@ let fs = require('fs');
 
 class StaticPageServer {
   serveHomePage(res, callback) {
-    fs.readFile('./ui/app.html',
+    fs.readFile('./client/index.html',
       function onHomepageFileRead(err, content) {
         if (!err) {
           res.writeHead(200, {
